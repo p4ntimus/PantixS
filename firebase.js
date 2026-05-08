@@ -1,20 +1,26 @@
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+// Firebase v9 Modular SDK (funktioniert in modernen Web-Apps)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js";
 
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyC-hBSCx7SICKQ7ntYFcJIwgR5zsewj8hg",
-    authDomain: "pantixs.firebaseapp.com",
-    projectId: "pantixs",
-    storageBucket: "pantixs.firebasestorage.app",
-    messagingSenderId: "397472052167",
-    appId: "1:397472052167:web:b769b80410f86711cd9fe2",
-    measurementId: "G-2VR1G8JN1B"
-  };
+// Deine Firebase Config
+const firebaseConfig = {
+  apiKey: "AIzaSyC-hBSCx7SICKQ7ntYFcJIwgR5zsewj8hg",
+  authDomain: "pantixs.firebaseapp.com",
+  projectId: "pantixs",
+  storageBucket: "pantixs.firebasestorage.app",
+  messagingSenderId: "397472052167",
+  appId: "1:397472052167:web:b769b80410f86711cd9fe2",
+  measurementId: "G-2VR1G8JN1B"
+};
 
-  firebase.initializeApp(firebaseConfig);
+// App initialisieren
+const app = initializeApp(firebaseConfig);
 
-  const auth = firebase.auth();
-  const db = firebase.firestore();
-</script>
+// Module exportieren
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+export const storage = getStorage(app);
+
+export default app;
