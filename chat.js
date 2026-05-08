@@ -2,15 +2,14 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy } 
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// Deine Firebase Config
+// 🔥 Deine Firebase Config einfügen
 const firebaseConfig = {
-  apiKey: "AIzaSyC-hBSCx7SICKQ7ntYFcJIwgR5zsewj8hg",
-  authDomain: "pantixs.firebaseapp.com",
-  projectId: "pantixs",
-  storageBucket: "pantixs.firebasestorage.app",
-  messagingSenderId: "397472052167",
-  appId: "1:397472052167:web:b769b80410f86711cd9fe2",
-  measurementId: "G-2VR1G8JN1B"
+  apiKey: "",
+  authDomain: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: ""
 };
 
 const app = initializeApp(firebaseConfig);
@@ -22,13 +21,36 @@ const messagesDiv = document.getElementById("messages");
 const input = document.getElementById("messageInput");
 const sendBtn = document.getElementById("sendBtn");
 
-// Nachrichten senden
+// Username laden oder Overlay anzeigen
+let username = localStorage.getItem("pantinet_username");
+
+const overlay = document.getElementById("username-overlay");
+const usernameInput = document.getElementById("usernameInput");
+const saveUsernameBtn = document.getElementById("saveUsernameBtn");
+
+if (!username) {
+  overlay.style.display = "flex";
+} else {
+  overlay.style.display = "none";
+}
+
+saveUsernameBtn.onclick = () => {
+  const name = usernameInput.value.trim();
+  if (!name) return;
+
+  localStorage.setItem("pantinet_username", name);
+  username = name;
+  overlay.style.display = "none";
+};
+
+// Nachricht senden
 sendBtn.onclick = async () => {
   const text = input.value.trim();
-  if (!text) return;
+  if (!text || !username) return;
 
   await addDoc(messagesRef, {
     text,
+    user: username,
     createdAt: serverTimestamp()
   });
 
@@ -41,9 +63,16 @@ const q = query(messagesRef, orderBy("createdAt"));
 onSnapshot(q, (snapshot) => {
   messagesDiv.innerHTML = "";
   snapshot.forEach((doc) => {
+    const data = doc.data();
+
     const msg = document.createElement("div");
     msg.className = "message";
-    msg.textContent = doc.data().text;
+
+    msg.innerHTML = `
+      <strong>${data.user || "Unbekannt"}:</strong><br>
+      ${data.text}
+    `;
+
     messagesDiv.appendChild(msg);
   });
 
