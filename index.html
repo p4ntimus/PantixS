@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PantixS – Login</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <title>Pantinet Chat</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="login-container">
-    <h1>PantixS</h1>
-    <p>Mini‑Messenger für Stefan & Tochter</p>
+  <div id="chat-container">
+    <div id="messages"></div>
 
-    <input id="nameInput" type="text" placeholder="Dein Name">
-    <button id="startBtn">Starten</button>
-</div>
+    <div id="input-area">
+      <input id="messageInput" type="text" placeholder="Nachricht eingeben...">
+      <button id="sendBtn">Senden</button>
+    </div>
+  </div>
 
-<script src="firebase.js?v=1"></script>
-<script src="app.js"></script>
-
+  <script type="module" src="chat.js"></script>
 </body>
 </html>
