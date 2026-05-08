@@ -1,47 +1,50 @@
-// Firebase Objekte aus firebase.js holen
-const auth = firebase.auth();
-const db = firebase.firestore();
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy } 
+  from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// 🔥 HIER DEINE FIREBASE CONFIG EINTRAGEN
+const firebaseConfig = {
+  apiKey: "",
+  authDomain: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: ""
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const messagesRef = collection(db, "messages");
 
 const messagesDiv = document.getElementById("messages");
-const msgInput = document.getElementById("msgInput");
+const input = document.getElementById("messageInput");
 const sendBtn = document.getElementById("sendBtn");
 
-sendBtn.addEventListener("click", sendMessage);
-msgInput.addEventListener("keypress", e => {
-    if (e.key === "Enter") sendMessage();
-});
+// Nachrichten senden
+sendBtn.onclick = async () => {
+  const text = input.value.trim();
+  if (!text) return;
 
-function sendMessage() {
-    const text = msgInput.value.trim();
-    if (!text) return;
-
-    db.collection("messages").add({
-        text: text,
-        sender: auth.currentUser.displayName || "Unbekannt",
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    });
-
-    msgInput.value = "";
-}
-
-db.collection("messages")
-  .orderBy("timestamp")
-  .onSnapshot(snapshot => {
-      messagesDiv.innerHTML = "";
-
-      snapshot.forEach(doc => {
-          const msg = doc.data();
-          const div = document.createElement("div");
-
-          div.classList.add("message");
-
-          if (msg.sender === auth.currentUser.displayName) {
-              div.classList.add("me");
-          }
-
-          div.textContent = msg.sender + ": " + msg.text;
-          messagesDiv.appendChild(div);
-      });
-
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  await addDoc(messagesRef, {
+    text,
+    createdAt: serverTimestamp()
   });
+
+  input.value = "";
+};
+
+// Nachrichten live empfangen
+const q = query(messagesRef, orderBy("createdAt"));
+
+onSnapshot(q, (snapshot) => {
+  messagesDiv.innerHTML = "";
+  snapshot.forEach((doc) => {
+    const msg = document.createElement("div");
+    msg.className = "message";
+    msg.textContent = doc.data().text;
+    messagesDiv.appendChild(msg);
+  });
+
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+});
