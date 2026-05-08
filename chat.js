@@ -2,14 +2,15 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy } 
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// 🔥 HIER DEINE FIREBASE CONFIG EINTRAGEN
+// Deine Firebase Config
 const firebaseConfig = {
-  apiKey: "",
-  authDomain: "",
-  projectId: "",
-  storageBucket: "",
-  messagingSenderId: "",
-  appId: ""
+  apiKey: "AIzaSyC-hBSCx7SICKQ7ntYFcJIwgR5zsewj8hg",
+  authDomain: "pantixs.firebaseapp.com",
+  projectId: "pantixs",
+  storageBucket: "pantixs.firebasestorage.app",
+  messagingSenderId: "397472052167",
+  appId: "1:397472052167:web:b769b80410f86711cd9fe2",
+  measurementId: "G-2VR1G8JN1B"
 };
 
 const app = initializeApp(firebaseConfig);
