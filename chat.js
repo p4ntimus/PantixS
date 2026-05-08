@@ -43,6 +43,16 @@ saveUsernameBtn.onclick = () => {
   overlay.style.display = "none";
 };
 
+// ⭐ Zeitformat-Funktion
+function formatTime(timestamp) {
+  if (!timestamp) return "";
+  const date = timestamp.toDate();
+  return date.toLocaleTimeString("de-DE", {
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+}
+
 // Nachricht senden
 sendBtn.onclick = async () => {
   const text = input.value.trim();
@@ -69,8 +79,11 @@ onSnapshot(q, (snapshot) => {
     msg.className = "message";
 
     msg.innerHTML = `
-      <strong>${data.user || "Unbekannt"}:</strong><br>
-      ${data.text}
+      <div class="msg-header">
+        <strong>${data.user || "Unbekannt"}</strong>
+        <span class="msg-time">${formatTime(data.createdAt)}</span>
+      </div>
+      <div class="msg-text">${data.text}</div>
     `;
 
     messagesDiv.appendChild(msg);
