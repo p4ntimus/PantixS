@@ -98,3 +98,13 @@ body {
 .msg-text {
   font-size: 15px;
 }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+#messages {
+  height: calc(100% - 60px); /* Platz für Input */
+  overflow-y: auto;
+}
