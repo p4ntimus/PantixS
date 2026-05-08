@@ -1,3 +1,7 @@
+// Firebase Objekte aus firebase.js holen
+const auth = firebase.auth();
+const db = firebase.firestore();
+
 const messagesDiv = document.getElementById("messages");
 const msgInput = document.getElementById("msgInput");
 const sendBtn = document.getElementById("sendBtn");
@@ -14,7 +18,7 @@ function sendMessage() {
     db.collection("messages").add({
         text: text,
         sender: auth.currentUser.displayName || "Unbekannt",
-        timestamp: Date.now()
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
     });
 
     msgInput.value = "";
@@ -30,7 +34,8 @@ db.collection("messages")
           const div = document.createElement("div");
 
           div.classList.add("message");
-          if (msg.sender === (auth.currentUser && auth.currentUser.displayName)) {
+
+          if (msg.sender === auth.currentUser.displayName) {
               div.classList.add("me");
           }
 
