@@ -2,7 +2,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy } 
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// 🔥 Deine Firebase Config einfügen
 const firebaseConfig = {
   apiKey: "",
   authDomain: "",
@@ -21,8 +20,7 @@ const messagesDiv = document.getElementById("messages");
 const input = document.getElementById("messageInput");
 const sendBtn = document.getElementById("sendBtn");
 
-// Username laden oder Overlay anzeigen
-let username = localStorage.getItem("pantinet_username");
+let username = localStorage.getItem("privatechat_username");
 
 const overlay = document.getElementById("username-overlay");
 const usernameInput = document.getElementById("usernameInput");
@@ -38,12 +36,11 @@ saveUsernameBtn.onclick = () => {
   const name = usernameInput.value.trim();
   if (!name) return;
 
-  localStorage.setItem("pantinet_username", name);
+  localStorage.setItem("privatechat_username", name);
   username = name;
   overlay.style.display = "none";
 };
 
-// ⭐ Zeitformat-Funktion
 function formatTime(timestamp) {
   if (!timestamp) return "";
   const date = timestamp.toDate();
@@ -53,7 +50,6 @@ function formatTime(timestamp) {
   });
 }
 
-// Nachricht senden
 sendBtn.onclick = async () => {
   const text = input.value.trim();
   if (!text || !username) return;
@@ -67,7 +63,6 @@ sendBtn.onclick = async () => {
   input.value = "";
 };
 
-// Nachrichten live empfangen
 const q = query(messagesRef, orderBy("createdAt"));
 
 onSnapshot(q, (snapshot) => {
@@ -76,14 +71,11 @@ onSnapshot(q, (snapshot) => {
     const data = doc.data();
 
     const msg = document.createElement("div");
-    msg.className = "message";
+    msg.className = data.user === username ? "message me" : "message other";
 
     msg.innerHTML = `
-      <div class="msg-header">
-        <strong>${data.user || "Unbekannt"}</strong>
-        <span class="msg-time">${formatTime(data.createdAt)}</span>
-      </div>
-      <div class="msg-text">${data.text}</div>
+      <div>${data.text}</div>
+      <div class="time">${formatTime(data.createdAt)}</div>
     `;
 
     messagesDiv.appendChild(msg);
