@@ -109,10 +109,8 @@ messageInput.addEventListener("input", () => {
 // --- Keyboard Push Fix ---
 window.addEventListener("focusin", () => {
   inputArea.style.position = "absolute";
-  messages.style.bottom = "70px";
 });
 
 window.addEventListener("focusout", () => {
   inputArea.style.position = "fixed";
-  messages.style.bottom = "70px";
 });
