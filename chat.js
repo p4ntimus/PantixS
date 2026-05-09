@@ -89,3 +89,19 @@ onSnapshot(q, (snapshot) => {
 
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
 });
+
+const inputArea = document.getElementById("inputArea");
+const messages = document.getElementById("messages");
+
+// Keyboard Push Fix
+window.addEventListener("focusin", () => {
+    // Tastatur geht auf
+    inputArea.style.position = "absolute";
+    messages.style.bottom = "70px";
+});
+
+window.addEventListener("focusout", () => {
+    // Tastatur geht zu
+    inputArea.style.position = "fixed";
+    messages.style.bottom = "70px";
+});
