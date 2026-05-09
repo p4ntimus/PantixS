@@ -131,6 +131,11 @@ body {
   background: #2a2a2d;
   color: white;
   font-size: 15px;
+  resize: none;
+  height: 46px;
+  max-height: 120px;
+  overflow-y: auto;
+  line-height: 1.4;
 }
 
 /* Senden Button */
