@@ -2,28 +2,35 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Pantinet Chat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privater Chat</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div id="chat-container">
-    <div id="messages"></div>
-
-    <div id="input-area">
-      <input id="messageInput" type="text" placeholder="Nachricht eingeben...">
-      <button id="sendBtn">Senden</button>
+  <!-- Username Overlay -->
+  <div id="username-overlay">
+    <div class="overlay-box">
+      <h2>Wie heißt du?</h2>
+      <input id="usernameInput" type="text" placeholder="Dein Name">
+      <button id="saveUsernameBtn">Weiter</button>
     </div>
+  </div>
+
+  <!-- Header -->
+  <header id="chat-header">
+    <span id="chat-username">Privater Chat</span>
+  </header>
+
+  <!-- Nachrichten -->
+  <div id="messages"></div>
+
+  <!-- Eingabe -->
+  <div id="inputArea">
+    <input id="messageInput" type="text" placeholder="Nachricht schreiben…">
+    <button id="sendBtn">➤</button>
   </div>
 
   <script type="module" src="chat.js"></script>
 </body>
-  <div id="username-overlay">
-  <div id="username-box">
-    <h2>Wie heißt du?</h2>
-    <input id="usernameInput" type="text" placeholder="Dein Name">
-    <button id="saveUsernameBtn">Weiter</button>
-  </div>
-</div>
-
 </html>
