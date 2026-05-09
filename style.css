@@ -1,4 +1,8 @@
 /* Dark Elegant Grunddesign */
+:root {
+  --vh: 1vh;
+}
+
 #username-overlay {
   z-index: 9999 !important;
 }
