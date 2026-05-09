@@ -60,9 +60,9 @@ body {
 #messages {
   position: absolute;
   top: 60px;
-  bottom: 70px;
   left: 0;
   right: 0;
+  bottom: calc(70px + env(safe-area-inset-bottom));
   overflow-y: auto;
   padding: 15px;
   display: flex;
