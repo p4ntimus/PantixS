@@ -171,3 +171,31 @@ body {
   z-index: 1;
   position: relative;
 }
+
+#inputArea {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: #18181b;
+  display: flex;
+  padding: 10px;
+  gap: 10px;
+  border-top: 1px solid #222;
+  z-index: 1;
+}
+
+#inputArea {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: #18181b;
+  display: flex;
+  padding: 10px;
+  gap: 10px;
+  border-top: 1px solid #222;
+  z-index: 1;
+}
