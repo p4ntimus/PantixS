@@ -1,13 +1,16 @@
+// --- Mobile 100vh Fix ---
 function updateVH() {
   document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
 }
 updateVH();
 window.addEventListener('resize', updateVH);
 
+// --- Firebase Imports ---
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy } 
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+// --- Firebase Config ---
 const firebaseConfig = {
   apiKey: "AIzaSyC-hBSCx7SICKQ7ntYFcJIwgR5zsewj8hg",
   authDomain: "pantixs.firebaseapp.com",
@@ -19,13 +22,16 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
 const messagesRef = collection(db, "messages");
 
+// --- DOM Elements ---
 const messagesDiv = document.getElementById("messages");
-const input = document.getElementById("messageInput");
+const messageInput = document.getElementById("messageInput");
 const sendBtn = document.getElementById("sendBtn");
+const inputArea = document.getElementById("inputArea");
+const messages = document.getElementById("messages");
 
+// --- Username Overlay ---
 let username = localStorage.getItem("privatechat_username");
 
 const overlay = document.getElementById("username-overlay");
@@ -47,6 +53,7 @@ saveUsernameBtn.onclick = () => {
   overlay.style.display = "none";
 };
 
+// --- Zeitformat ---
 function formatTime(timestamp) {
   if (!timestamp) return "";
   const date = timestamp.toDate();
@@ -56,8 +63,9 @@ function formatTime(timestamp) {
   });
 }
 
+// --- Nachricht senden ---
 sendBtn.onclick = async () => {
-  const text = input.value.trim();
+  const text = messageInput.value.trim();
   if (!text || !username) return;
 
   await addDoc(messagesRef, {
@@ -66,9 +74,11 @@ sendBtn.onclick = async () => {
     createdAt: serverTimestamp()
   });
 
-  input.value = "";
+  messageInput.value = "";
+  messageInput.style.height = "46px"; // Reset nach Senden
 };
 
+// --- Nachrichten live laden ---
 const q = query(messagesRef, orderBy("createdAt"));
 
 onSnapshot(q, (snapshot) => {
@@ -90,25 +100,19 @@ onSnapshot(q, (snapshot) => {
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
 });
 
-const inputArea = document.getElementById("inputArea");
-const messages = document.getElementById("messages");
-const messageInput = document.getElementById("messageInput");
-
-const messageInput = document.getElementById("messageInput");
+// --- Auto-Resize für Textarea ---
 messageInput.addEventListener("input", () => {
   messageInput.style.height = "auto";
   messageInput.style.height = messageInput.scrollHeight + "px";
 });
 
-// Keyboard Push Fix
+// --- Keyboard Push Fix ---
 window.addEventListener("focusin", () => {
-    // Tastatur geht auf
-    inputArea.style.position = "absolute";
-    messages.style.bottom = "70px";
+  inputArea.style.position = "absolute";
+  messages.style.bottom = "70px";
 });
 
 window.addEventListener("focusout", () => {
-    // Tastatur geht zu
-    inputArea.style.position = "fixed";
-    messages.style.bottom = "70px";
+  inputArea.style.position = "fixed";
+  messages.style.bottom = "70px";
 });
