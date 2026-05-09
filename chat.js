@@ -3,12 +3,12 @@ import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, o
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "",
-  authDomain: "",
-  projectId: "",
-  storageBucket: "",
-  messagingSenderId: "",
-  appId: ""
+  apiKey: "AIzaSyC-hBSCx7SICKQ7ntYFcJIwgR5zsewj8hg",
+  authDomain: "pantixs.firebaseapp.com",
+  projectId: "pantixs",
+  storageBucket: "pantixs.firebasestorage.app",
+  messagingSenderId: "397472052167",
+  appId: "1:397472052167:web:b769b80410f86711cd9fe2"
 };
 
 const app = initializeApp(firebaseConfig);
