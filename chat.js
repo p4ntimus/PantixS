@@ -1,3 +1,9 @@
+function updateVH() {
+  document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+}
+updateVH();
+window.addEventListener('resize', updateVH);
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy } 
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
