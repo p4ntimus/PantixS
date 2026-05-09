@@ -1,31 +1,56 @@
 body {
   margin: 0;
-  background: #0f0f10;
+  height: 100vh;
+  background: linear-gradient(160deg, #0f0f10 0%, #1a1a1d 100%);
   font-family: "Inter", sans-serif;
   color: white;
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+/* Smooth Fade-In */
+.fade-in {
+  animation: fadeIn 0.8s ease forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Container */
 .container {
   text-align: center;
   padding: 20px;
+  transform: translateY(10px);
 }
 
+/* Logo (Glow Circle) */
+.logo {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #4f46e5 0%, #2a2a2d 70%);
+  box-shadow: 0 0 25px #4f46e5aa;
+}
+
+/* Title */
 .title {
   font-size: 32px;
   font-weight: 700;
   margin-bottom: 10px;
 }
 
+/* Subtitle */
 .subtitle {
   font-size: 16px;
   opacity: 0.7;
   margin-bottom: 40px;
 }
 
+/* Button */
 .startBtn {
   padding: 14px 28px;
   font-size: 18px;
@@ -35,8 +60,10 @@ body {
   color: white;
   cursor: pointer;
   transition: 0.2s;
+  box-shadow: 0 0 12px #4f46e566;
 }
 
 .startBtn:hover {
   background: #6a63ff;
+  box-shadow: 0 0 18px #6a63ff99;
 }
