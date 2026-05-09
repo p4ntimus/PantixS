@@ -27,7 +27,7 @@ body {
   background: #0f0f10;
   font-family: "Inter", sans-serif;
   color: #fff;
-  height: 100vh;
+  height: calc(var(--vh) * 100);
   overflow: hidden;
 }
 
