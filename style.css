@@ -3,10 +3,7 @@
   --vh: 1vh;
 }
 
-#username-overlay {
-  z-index: 9999 !important;
-}
-
+/* Username Overlay */
 #username-overlay {
   position: fixed;
   inset: 0;
@@ -14,21 +11,34 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999; /* WICHTIG */
+  z-index: 9999 !important;
+
+  /* Safe Area */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
+/* Z-Index Fix */
 #messages, #inputArea, #chat-header {
   position: relative;
   z-index: 1;
 }
 
+/* Body */
 body {
   margin: 0;
   background: #0f0f10;
   font-family: "Inter", sans-serif;
   color: #fff;
+
+  /* Mobile 100vh Fix */
   height: calc(var(--vh) * 100);
+
   overflow: hidden;
+
+  /* Safe Area */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 /* Header */
@@ -41,6 +51,9 @@ body {
   font-size: 18px;
   font-weight: 600;
   border-bottom: 1px solid #222;
+
+  /* Safe Area oben */
+  padding-top: env(safe-area-inset-top);
 }
 
 /* Nachrichtenbereich */
@@ -91,9 +104,9 @@ body {
   text-align: right;
 }
 
-/* Eingabebereich */
+/* Eingabebereich – FINAL & EINZIGER BLOCK */
 #inputArea {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
@@ -103,8 +116,13 @@ body {
   padding: 10px;
   gap: 10px;
   border-top: 1px solid #222;
+  z-index: 1;
+
+  /* Safe Area unten */
+  padding-bottom: calc(10px + env(safe-area-inset-bottom));
 }
 
+/* Input */
 #messageInput {
   flex: 1;
   border: none;
@@ -115,6 +133,7 @@ body {
   font-size: 15px;
 }
 
+/* Senden Button */
 #sendBtn {
   width: 60px;
   border: none;
@@ -124,16 +143,7 @@ body {
   font-size: 20px;
 }
 
-/* Overlay */
-#username-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
+/* Overlay Box */
 .overlay-box {
   background: #18181b;
   padding: 25px;
@@ -164,42 +174,8 @@ body {
   font-size: 16px;
 }
 
+/* Animation */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-#messages,
-#inputArea,
-#chat-header {
-  z-index: 1;
-  position: relative;
-}
-
-#inputArea {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 70px;
-  background: #18181b;
-  display: flex;
-  padding: 10px;
-  gap: 10px;
-  border-top: 1px solid #222;
-  z-index: 1;
-}
-
-#inputArea {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 70px;
-  background: #18181b;
-  display: flex;
-  padding: 10px;
-  gap: 10px;
-  border-top: 1px solid #222;
-  z-index: 1;
 }
