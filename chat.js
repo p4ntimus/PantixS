@@ -92,6 +92,13 @@ onSnapshot(q, (snapshot) => {
 
 const inputArea = document.getElementById("inputArea");
 const messages = document.getElementById("messages");
+const messageInput = document.getElementById("messageInput");
+
+const messageInput = document.getElementById("messageInput");
+messageInput.addEventListener("input", () => {
+  messageInput.style.height = "auto";
+  messageInput.style.height = messageInput.scrollHeight + "px";
+});
 
 // Keyboard Push Fix
 window.addEventListener("focusin", () => {
