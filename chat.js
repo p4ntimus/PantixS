@@ -29,7 +29,6 @@ const messagesDiv = document.getElementById("messages");
 const messageInput = document.getElementById("messageInput");
 const sendBtn = document.getElementById("sendBtn");
 const inputArea = document.getElementById("inputArea");
-const messages = document.getElementById("messages");
 
 // --- Username Overlay ---
 let username = localStorage.getItem("privatechat_username");
@@ -78,26 +77,34 @@ sendBtn.onclick = async () => {
   messageInput.style.height = "46px"; // Reset nach Senden
 };
 
-// --- Nachrichten live laden ---
+// --- Nachrichten live laden (optimiert) ---
 const q = query(messagesRef, orderBy("createdAt"));
 
+let lastRenderedId = null;
+
 onSnapshot(q, (snapshot) => {
-  messagesDiv.innerHTML = "";
-  snapshot.forEach((doc) => {
-    const data = doc.data();
+  snapshot.docChanges().forEach((change) => {
+    if (change.type === "added") {
+      const data = change.doc.data();
 
-    const msg = document.createElement("div");
-    msg.className = data.user === username ? "message me" : "message other";
+      const msg = document.createElement("div");
+      msg.className = data.user === username ? "message me" : "message other";
 
-    msg.innerHTML = `
-      <div>${data.text}</div>
-      <div class="time">${formatTime(data.createdAt)}</div>
-    `;
+      msg.innerHTML = `
+        <div>${data.text}</div>
+        <div class="time">${formatTime(data.createdAt)}</div>
+      `;
 
-    messagesDiv.appendChild(msg);
+      messagesDiv.appendChild(msg);
+      lastRenderedId = change.doc.id;
+    }
   });
 
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  // Smooth scroll nur wenn man unten ist
+  const nearBottom = messagesDiv.scrollHeight - messagesDiv.scrollTop - messagesDiv.clientHeight < 80;
+  if (nearBottom) {
+    messagesDiv.scrollTo({ top: messagesDiv.scrollHeight, behavior: "smooth" });
+  }
 });
 
 // --- Auto-Resize für Textarea ---
@@ -106,11 +113,11 @@ messageInput.addEventListener("input", () => {
   messageInput.style.height = messageInput.scrollHeight + "px";
 });
 
-// --- Keyboard Push Fix ---
+// --- Verbesserter Keyboard Fix ---
 window.addEventListener("focusin", () => {
-  inputArea.style.position = "absolute";
+  inputArea.classList.add("keyboard-open");
 });
 
 window.addEventListener("focusout", () => {
-  inputArea.style.position = "fixed";
+  inputArea.classList.remove("keyboard-open");
 });
