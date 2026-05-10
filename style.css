@@ -265,3 +265,45 @@ body {
   animation: reaction-pop 0.25s ease;
 }
 
+/* --- iMessage-Style Reaction Stack --- */
+.message {
+  position: relative;
+}
+
+.reaction-stack {
+  position: absolute;
+  top: -6px;
+  right: 8px;
+  display: flex;
+  gap: 2px;
+}
+
+.reaction-chip {
+  background: #18181b;
+  border-radius: 999px;
+  padding: 2px 6px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  animation: reaction-pop 0.22s ease;
+}
+
+/* Emoji im Chip */
+.reaction-chip span {
+  font-size: 13px;
+}
+
+/* Pop-In Animation */
+@keyframes reaction-pop {
+  0% { transform: scale(0.2); opacity: 0; }
+  60% { transform: scale(1.25); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+/* Popup Emoji Bounce */
+.reaction-popup span:active {
+  transform: scale(1.35);
+  transition: transform 0.12s ease;
+}
