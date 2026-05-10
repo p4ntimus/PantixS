@@ -357,7 +357,7 @@ body {
   z-index: 999;
   box-shadow: 0 4px 12px rgba(0,0,0,0.4);
   transition: 0.2s ease;
-  opacity: 1;
+  /* WICHTIG: KEINE opacity hier! */
 }
 
 .settings-hidden {
