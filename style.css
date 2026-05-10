@@ -204,3 +204,43 @@ body {
   from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* Reaction Popup */
+.reaction-popup {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1f1f22;
+  padding: 8px 10px;
+  border-radius: 20px;
+  display: flex;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.15s ease;
+}
+
+.reaction-popup.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.reaction-popup span {
+  font-size: 20px;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.reaction-popup span:active {
+  transform: scale(1.3);
+}
+
+/* Reaction Badge unter der Nachricht */
+.reaction-badge {
+  margin-top: 4px;
+  font-size: 14px;
+  opacity: 0.8;
+}
