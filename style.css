@@ -244,3 +244,24 @@ body {
   font-size: 14px;
   opacity: 0.8;
 }
+
+/* --- Reaction Animations --- */
+
+/* Pop-In Animation */
+@keyframes reaction-pop {
+  0% { transform: scale(0.2); opacity: 0; }
+  60% { transform: scale(1.25); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+/* Bounce on tap */
+.reaction-popup span:active {
+  transform: scale(1.35);
+  transition: transform 0.12s ease;
+}
+
+/* Reaction Badge Fade-In */
+.reaction-badge {
+  animation: reaction-pop 0.25s ease;
+}
+
