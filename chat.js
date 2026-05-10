@@ -216,7 +216,29 @@ function showReactionPopup(msgElement, messageId, currentReactions) {
   }, { once: true });
 }
 
+// --- Online Dot Animation ---
 setInterval(() => {
-    const dot = document.querySelector(".online-dot");
-    if (dot) dot.style.opacity = dot.style.opacity === "1" ? "0.4" : "1";
+  const dot = document.querySelector(".online-dot");
+  if (dot) dot.style.opacity = dot.style.opacity === "1" ? "0.4" : "1";
 }, 1200);
+
+// --- Theme System ---
+function setTheme(name) {
+  document.body.className = name;
+  localStorage.setItem("pantixs_theme", name);
+}
+
+const savedTheme = localStorage.getItem("pantixs_theme");
+if (savedTheme) {
+  document.body.className = savedTheme;
+} else {
+  document.body.className = "theme-purple";
+}
+
+// --- Settings Menü Toggle ---
+const settingsIcon = document.querySelector(".settings-icon");
+const settingsMenu = document.getElementById("settings-menu");
+
+settingsIcon.addEventListener("click", () => {
+  settingsMenu.classList.toggle("settings-hidden");
+});
