@@ -1,3 +1,4 @@
+/* --- PantixS Theme Variables --- */
 :root {
   --bg: #0f0f10;
   --header-bg: #6d28d9;
@@ -5,25 +6,20 @@
   --bubble-other: #1f1f22;
   --accent: #9333ea;
   --text: #ffffff;
-}
 
-/* --- Root / 100vh Fix --- */
-:root {
-  --vh: 1vh;
+  --vh: 1vh; /* 100vh Fix */
 }
 
 /* --- Body --- */
 body {
   margin: 0;
-  background: #0f0f10;
+  background: var(--bg);
   font-family: "Inter", sans-serif;
-  color: #fff;
+  color: var(--text);
 
-  /* Mobile 100vh Fix */
   height: calc(var(--vh) * 100);
   overflow: hidden;
 
-  /* Safe Area */
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
 }
@@ -34,291 +30,7 @@ body {
   z-index: 1;
 }
 
-/* --- Header --- */
-#chat-header {
-  height: 60px;
-  background: #18181b;
-  display: flex;
-  align-items: center;
-  padding: 0 20px;
-  font-size: 18px;
-  font-weight: 600;
-  border-bottom: 1px solid #222;
-
-  /* Safe Area oben */
-  padding-top: env(safe-area-inset-top);
-}
-
-/* --- Nachrichtenbereich --- */
-#messages {
-  position: absolute;
-  top: 60px;
-  left: 0;
-  right: 0;
-  bottom: calc(70px + env(safe-area-inset-bottom));
-  overflow-y: auto;
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  scroll-behavior: smooth;
-}
-
-/* Scrollbar minimal */
-#messages::-webkit-scrollbar {
-  width: 4px;
-}
-#messages::-webkit-scrollbar-thumb {
-  background: #333;
-  border-radius: 4px;
-}
-
-/* --- Nachrichtenblasen --- */
-.message {
-  max-width: 75%;
-  padding: 12px 16px;
-  border-radius: 16px;
-  font-size: 15px;
-  line-height: 1.4;
-  position: relative;
-  animation: fadeIn 0.2s ease;
-}
-
-/* Eigene Nachricht */
-.me {
-  align-self: flex-end;
-  background: #4f46e5;
-  color: white;
-  border-bottom-right-radius: 4px;
-  box-shadow: 0 0 10px rgba(79, 70, 229, 0.4);
-}
-
-/* Andere Nachricht */
-.other {
-  align-self: flex-start;
-  background: #1f1f22;
-  border-bottom-left-radius: 4px;
-}
-
-/* Zeitstempel */
-.time {
-  font-size: 11px;
-  opacity: 0.6;
-  margin-top: 4px;
-  text-align: right;
-}
-
-/* --- Eingabebereich --- */
-#inputArea {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #18181b;
-  display: flex;
-  align-items: flex-end;
-  padding: 10px;
-  gap: 10px;
-  border-top: 1px solid #222;
-  z-index: 10;
-
-  /* Safe Area unten */
-  padding-bottom: calc(10px + env(safe-area-inset-bottom));
-}
-
-/* Keyboard-Fix-Klasse (wird von chat.js gesetzt) */
-#inputArea.keyboard-open {
-  position: absolute;
-}
-
-/* --- Input --- */
-#messageInput {
-  flex: 1;
-  border: none;
-  border-radius: 12px;
-  padding: 12px;
-  background: #2a2a2d;
-  color: white;
-  font-size: 15px;
-  resize: none;
-  min-height: 46px;
-  max-height: 140px;
-  overflow-y: auto;
-  line-height: 1.4;
-}
-
-/* --- Senden Button --- */
-#sendBtn {
-  width: 60px;
-  border: none;
-  border-radius: 12px;
-  background: #4f46e5;
-  color: white;
-  font-size: 20px;
-  cursor: pointer;
-  box-shadow: 0 0 10px rgba(79, 70, 229, 0.4);
-}
-#sendBtn:active {
-  transform: scale(0.95);
-}
-
-/* --- Username Overlay --- */
-#username-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999 !important;
-
-  /* Safe Area */
-  padding-top: env(safe-area-inset-top);
-  padding-bottom: env(safe-area-inset-bottom);
-}
-
-/* Overlay Box */
-.overlay-box {
-  background: #18181b;
-  padding: 25px;
-  border-radius: 12px;
-  width: 80%;
-  max-width: 300px;
-  text-align: center;
-}
-
-.overlay-box input {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  border-radius: 8px;
-  border: none;
-  background: #2a2a2d;
-  color: white;
-}
-
-.overlay-box button {
-  margin-top: 15px;
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  background: #4f46e5;
-  color: white;
-  font-size: 16px;
-}
-
-/* --- Animation --- */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Reaction Popup */
-.reaction-popup {
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #1f1f22;
-  padding: 8px 10px;
-  border-radius: 20px;
-  display: flex;
-  gap: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-  z-index: 999;
-  opacity: 0;
-  pointer-events: none;
-  transition: 0.15s ease;
-}
-
-.reaction-popup.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.reaction-popup span {
-  font-size: 20px;
-  cursor: pointer;
-  transition: transform 0.1s;
-}
-
-.reaction-popup span:active {
-  transform: scale(1.3);
-}
-
-/* Reaction Badge unter der Nachricht */
-.reaction-badge {
-  margin-top: 4px;
-  font-size: 14px;
-  opacity: 0.8;
-}
-
-/* --- Reaction Animations --- */
-
-/* Pop-In Animation */
-@keyframes reaction-pop {
-  0% { transform: scale(0.2); opacity: 0; }
-  60% { transform: scale(1.25); opacity: 1; }
-  100% { transform: scale(1); }
-}
-
-/* Bounce on tap */
-.reaction-popup span:active {
-  transform: scale(1.35);
-  transition: transform 0.12s ease;
-}
-
-/* Reaction Badge Fade-In */
-.reaction-badge {
-  animation: reaction-pop 0.25s ease;
-}
-
-/* --- iMessage-Style Reaction Stack --- */
-.message {
-  position: relative;
-}
-
-.reaction-stack {
-  position: absolute;
-  top: -6px;
-  right: 8px;
-  display: flex;
-  gap: 2px;
-}
-
-.reaction-chip {
-  background: #18181b;
-  border-radius: 999px;
-  padding: 2px 6px;
-  font-size: 11px;
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
-  animation: reaction-pop 0.22s ease;
-}
-
-/* Emoji im Chip */
-.reaction-chip span {
-  font-size: 13px;
-}
-
-/* Pop-In Animation */
-@keyframes reaction-pop {
-  0% { transform: scale(0.2); opacity: 0; }
-  60% { transform: scale(1.25); opacity: 1; }
-  100% { transform: scale(1); }
-}
-
-/* Popup Emoji Bounce */
-.reaction-popup span:active {
-  transform: scale(1.35);
-  transition: transform 0.12s ease;
-}
-
-/* --- PantixS Modern Butterfly Header --- */
-
+/* --- Header (modern butterfly header) --- */
 .chat-header {
     position: sticky;
     top: 0;
@@ -334,6 +46,7 @@ body {
     box-shadow: 0 2px 12px rgba(0,0,0,0.35);
 
     border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding-top: env(safe-area-inset-top);
 }
 
 .header-left {
@@ -391,32 +104,240 @@ body {
     opacity: 1;
 }
 
-/* --- PantixS Themes --- */
-
-.theme-purple {
-  --bg: #0f0f10;
-  --header-bg: #6d28d9;
-  --bubble-me: #4f46e5;
-  --accent: #9333ea;
+/* --- Nachrichtenbereich --- */
+#messages {
+  position: absolute;
+  top: 62px;
+  left: 0;
+  right: 0;
+  bottom: calc(70px + env(safe-area-inset-bottom));
+  overflow-y: auto;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scroll-behavior: smooth;
 }
 
-.theme-pink {
-  --bg: #1a0f14;
-  --header-bg: #d946ef;
-  --bubble-me: #ec4899;
-  --accent: #f472b6;
+/* Scrollbar minimal */
+#messages::-webkit-scrollbar {
+  width: 4px;
+}
+#messages::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
 }
 
-.theme-blue {
-  --bg: #0d1117;
-  --header-bg: #2563eb;
-  --bubble-me: #3b82f6;
-  --accent: #60a5fa;
+/* --- Nachrichtenblasen --- */
+.message {
+  max-width: 75%;
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-size: 15px;
+  line-height: 1.4;
+  position: relative;
+  animation: fadeIn 0.2s ease;
 }
 
-.theme-girly {
-  --bg: #1a0f14;
-  --header-bg: #ff7ad1;
-  --bubble-me: #ff4fb2;
-  --accent: #ff9adf;
+/* Eigene Nachricht */
+.me {
+  align-self: flex-end;
+  background: var(--bubble-me);
+  color: white;
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.35);
+}
+
+/* Andere Nachricht */
+.other {
+  align-self: flex-start;
+  background: var(--bubble-other);
+  border-bottom-left-radius: 4px;
+}
+
+/* Zeitstempel */
+.time {
+  font-size: 11px;
+  opacity: 0.6;
+  margin-top: 4px;
+  text-align: right;
+}
+
+/* --- Eingabebereich --- */
+#inputArea {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--header-bg);
+  display: flex;
+  align-items: flex-end;
+  padding: 10px;
+  gap: 10px;
+  border-top: 1px solid #222;
+  z-index: 10;
+
+  padding-bottom: calc(10px + env(safe-area-inset-bottom));
+}
+
+#inputArea.keyboard-open {
+  position: absolute;
+}
+
+/* --- Input --- */
+#messageInput {
+  flex: 1;
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  background: var(--bubble-other);
+  color: white;
+  font-size: 15px;
+  resize: none;
+  min-height: 46px;
+  max-height: 140px;
+  overflow-y: auto;
+  line-height: 1.4;
+}
+
+/* --- Senden Button --- */
+#sendBtn {
+  width: 60px;
+  border: none;
+  border-radius: 12px;
+  background: var(--accent);
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0,0,0,0.35);
+}
+#sendBtn:active {
+  transform: scale(0.95);
+}
+
+/* --- Username Overlay --- */
+#username-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999 !important;
+
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.overlay-box {
+  background: var(--header-bg);
+  padding: 25px;
+  border-radius: 12px;
+  width: 80%;
+  max-width: 300px;
+  text-align: center;
+}
+
+.overlay-box input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: none;
+  background: var(--bubble-other);
+  color: white;
+}
+
+.overlay-box button {
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: white;
+  font-size: 16px;
+}
+
+/* --- Animation --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Reaction Popup */
+.reaction-popup {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bubble-other);
+  padding: 8px 10px;
+  border-radius: 20px;
+  display: flex;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.15s ease;
+}
+
+.reaction-popup.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.reaction-popup span {
+  font-size: 20px;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.reaction-popup span:active {
+  transform: scale(1.3);
+}
+
+/* Reaction Badge */
+.reaction-badge {
+  margin-top: 4px;
+  font-size: 14px;
+  opacity: 0.8;
+  animation: reaction-pop 0.25s ease;
+}
+
+/* Reaction Stack */
+.message {
+  position: relative;
+}
+
+.reaction-stack {
+  position: absolute;
+  top: -6px;
+  right: 8px;
+  display: flex;
+  gap: 2px;
+}
+
+.reaction-chip {
+  background: var(--header-bg);
+  border-radius: 999px;
+  padding: 2px 6px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  animation: reaction-pop 0.22s ease;
+}
+
+.reaction-chip span {
+  font-size: 13px;
+}
+
+/* Pop-In Animation */
+@keyframes reaction-pop {
+  0% { transform: scale(0.2); opacity: 0; }
+  60% { transform: scale(1.25); opacity: 1; }
+  100% { transform: scale(1); }
 }
