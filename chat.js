@@ -7,8 +7,10 @@ window.addEventListener('resize', updateVH);
 
 // --- Firebase Imports ---
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy } 
-  from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { 
+  getFirestore, collection, addDoc, serverTimestamp, 
+  onSnapshot, query, orderBy, updateDoc, doc 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // --- Firebase Config ---
 const firebaseConfig = {
@@ -19,17 +21,6 @@ const firebaseConfig = {
   messagingSenderId: "397472052167",
   appId: "1:397472052167:web:b769b80410f86711cd9fe2"
 };
-
-import { updateDoc, doc } 
-  from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-async function addReaction(messageId, reaction) {
-  const messageRef = doc(db, "messages", messageId);
-
-  await updateDoc(messageRef, {
-    reaction: reaction
-  });
-}
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -81,68 +72,55 @@ sendBtn.onclick = async () => {
   await addDoc(messagesRef, {
     text,
     user: username,
-    createdAt: serverTimestamp()
+    createdAt: serverTimestamp(),
+    reaction: null
   });
 
   messageInput.value = "";
-  messageInput.style.height = "46px"; // Reset nach Senden
+  messageInput.style.height = "46px";
 };
 
-// --- Nachrichten live laden (optimiert) ---
+// --- Nachrichten live laden ---
 const q = query(messagesRef, orderBy("createdAt"));
 
-let lastRenderedId = null;
-
 onSnapshot(q, (snapshot) => {
-  snapshot.docChanges().forEach((change) => {
-    if (change.type === "added") {
-      const data = change.doc.data();
+  messagesDiv.innerHTML = ""; // Komplett neu rendern
 
-      const msg = document.createElement("div");
-      msg.className = data.user === username ? "message me" : "message other";
+  snapshot.forEach((docSnap) => {
+    const data = docSnap.data();
+    const id = docSnap.id;
 
-      msg.innerHTML = `
-        <div>${data.text}</div>
-        <div class="time">${formatTime(data.createdAt)}</div>
-      `;
+    const msg = document.createElement("div");
+    msg.className = data.user === username ? "message me" : "message other";
 
-      messagesDiv.appendChild(msg);
-      lastRenderedId = change.doc.id;
-    }
+    msg.innerHTML = `
+      <div>${data.text}</div>
+      <div class="time">${formatTime(data.createdAt)}</div>
+      ${data.reaction ? `<div class="reaction-badge">${data.reaction}</div>` : ""}
+    `;
+
+    // --- Long Press für Reaction Popup ---
+    let pressTimer;
+
+    msg.addEventListener("touchstart", () => {
+      pressTimer = setTimeout(() => {
+        showReactionPopup(msg, id);
+      }, 400);
+    });
+
+    msg.addEventListener("touchend", () => clearTimeout(pressTimer));
+    msg.addEventListener("touchmove", () => clearTimeout(pressTimer));
+
+    // Optional für PC
+    msg.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+      showReactionPopup(msg, id);
+    });
+
+    messagesDiv.appendChild(msg);
   });
 
-  // Reaction Popup erstellen
-function createReactionPopup(messageElement, messageId) {
-  const popup = document.createElement("div");
-  popup.className = "reaction-popup";
-
-  const reactions = ["👍", "❤️", "😂", "😮", "😢", "🔥"];
-
-  reactions.forEach(r => {
-    const span = document.createElement("span");
-    span.textContent = r;
-    span.onclick = () => addReaction(messageId, r);
-    popup.appendChild(span);
-  });
-
-  messageElement.appendChild(popup);
-
-  setTimeout(() => popup.classList.add("show"), 10);
-
-  // Popup schließen, wenn man woanders klickt
-  document.addEventListener("click", (e) => {
-    if (!popup.contains(e.target)) {
-      popup.classList.remove("show");
-      setTimeout(() => popup.remove(), 150);
-    }
-  }, { once: true });
-}
-
-  // Smooth scroll nur wenn man unten ist
-  const nearBottom = messagesDiv.scrollHeight - messagesDiv.scrollTop - messagesDiv.clientHeight < 80;
-  if (nearBottom) {
-    messagesDiv.scrollTo({ top: messagesDiv.scrollHeight, behavior: "smooth" });
-  }
+  messagesDiv.scrollTo({ top: messagesDiv.scrollHeight, behavior: "smooth" });
 });
 
 // --- Auto-Resize für Textarea ---
@@ -151,7 +129,7 @@ messageInput.addEventListener("input", () => {
   messageInput.style.height = messageInput.scrollHeight + "px";
 });
 
-// --- Verbesserter Keyboard Fix ---
+// --- Keyboard Fix ---
 window.addEventListener("focusin", () => {
   inputArea.classList.add("keyboard-open");
 });
@@ -159,3 +137,28 @@ window.addEventListener("focusin", () => {
 window.addEventListener("focusout", () => {
   inputArea.classList.remove("keyboard-open");
 });
+
+// --- Reaction speichern ---
+async function addReaction(messageId, reaction) {
+  const messageRef = doc(db, "messages", messageId);
+  await updateDoc(messageRef, { reaction });
+}
+
+// --- Reaction Popup ---
+function showReactionPopup(msgElement, messageId) {
+  const popup = document.createElement("div");
+  popup.className = "reaction-popup";
+
+  ["👍","❤️","😂","😮","😢","🔥"].forEach(r => {
+    const span = document.createElement("span");
+    span.textContent = r;
+    span.onclick = () => addReaction(messageId, r);
+    popup.appendChild(span);
+  });
+
+  msgElement.appendChild(popup);
+
+  setTimeout(() => popup.classList.add("show"), 10);
+
+  document.addEventListener("click", () => popup.remove(), { once: true });
+}
