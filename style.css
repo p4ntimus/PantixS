@@ -390,3 +390,33 @@ body {
     transform: scale(1.25);
     opacity: 1;
 }
+
+/* --- PantixS Themes --- */
+
+.theme-purple {
+  --bg: #0f0f10;
+  --header-bg: #6d28d9;
+  --bubble-me: #4f46e5;
+  --accent: #9333ea;
+}
+
+.theme-pink {
+  --bg: #1a0f14;
+  --header-bg: #d946ef;
+  --bubble-me: #ec4899;
+  --accent: #f472b6;
+}
+
+.theme-blue {
+  --bg: #0d1117;
+  --header-bg: #2563eb;
+  --bubble-me: #3b82f6;
+  --accent: #60a5fa;
+}
+
+.theme-girly {
+  --bg: #1a0f14;
+  --header-bg: #ff7ad1;
+  --bubble-me: #ff4fb2;
+  --accent: #ff9adf;
+}
