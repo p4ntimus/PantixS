@@ -215,3 +215,8 @@ function showReactionPopup(msgElement, messageId, currentReactions) {
     }
   }, { once: true });
 }
+
+setInterval(() => {
+    const dot = document.querySelector(".online-dot");
+    if (dot) dot.style.opacity = dot.style.opacity === "1" ? "0.4" : "1";
+}, 1200);
