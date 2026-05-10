@@ -26,6 +26,9 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const messagesRef = collection(db, "messages");
 
+// --- Reaction Set ---
+const REACTIONS = ["👍","❤️","😂","😮","😢","😡","🔥","😍","🤯","👀","👏"];
+
 // --- DOM Elements ---
 const messagesDiv = document.getElementById("messages");
 const messageInput = document.getElementById("messageInput");
@@ -73,7 +76,7 @@ sendBtn.onclick = async () => {
     text,
     user: username,
     createdAt: serverTimestamp(),
-    reaction: null
+    reactions: {} // Multi-Reactions
   });
 
   messageInput.value = "";
@@ -84,7 +87,7 @@ sendBtn.onclick = async () => {
 const q = query(messagesRef, orderBy("createdAt"));
 
 onSnapshot(q, (snapshot) => {
-  messagesDiv.innerHTML = ""; // Komplett neu rendern
+  messagesDiv.innerHTML = "";
 
   snapshot.forEach((docSnap) => {
     const data = docSnap.data();
@@ -93,10 +96,21 @@ onSnapshot(q, (snapshot) => {
     const msg = document.createElement("div");
     msg.className = data.user === username ? "message me" : "message other";
 
+    // Reaction-Badges generieren
+    let reactionHTML = "";
+    if (data.reactions) {
+      const entries = Object.entries(data.reactions);
+      if (entries.length > 0) {
+        reactionHTML = entries
+          .map(([emoji, users]) => `<div class="reaction-badge">${emoji} ${users.length}</div>`)
+          .join("");
+      }
+    }
+
     msg.innerHTML = `
       <div>${data.text}</div>
       <div class="time">${formatTime(data.createdAt)}</div>
-      ${data.reaction ? `<div class="reaction-badge">${data.reaction}</div>` : ""}
+      ${reactionHTML}
     `;
 
     // --- Long Press für Reaction Popup ---
@@ -104,7 +118,7 @@ onSnapshot(q, (snapshot) => {
 
     msg.addEventListener("touchstart", () => {
       pressTimer = setTimeout(() => {
-        showReactionPopup(msg, id);
+        showReactionPopup(msg, id, data.reactions || {});
       }, 400);
     });
 
@@ -114,7 +128,7 @@ onSnapshot(q, (snapshot) => {
     // Optional für PC
     msg.addEventListener("contextmenu", (e) => {
       e.preventDefault();
-      showReactionPopup(msg, id);
+      showReactionPopup(msg, id, data.reactions || {});
     });
 
     messagesDiv.appendChild(msg);
@@ -138,21 +152,34 @@ window.addEventListener("focusout", () => {
   inputArea.classList.remove("keyboard-open");
 });
 
-// --- Reaction speichern ---
-async function addReaction(messageId, reaction) {
+// --- Reaction speichern / entfernen ---
+async function toggleReaction(messageId, emoji, currentReactions) {
+  const reactions = { ...currentReactions };
+
+  if (!reactions[emoji]) reactions[emoji] = [];
+
+  const index = reactions[emoji].indexOf(username);
+
+  if (index === -1) {
+    reactions[emoji].push(username);
+  } else {
+    reactions[emoji].splice(index, 1);
+    if (reactions[emoji].length === 0) delete reactions[emoji];
+  }
+
   const messageRef = doc(db, "messages", messageId);
-  await updateDoc(messageRef, { reaction });
+  await updateDoc(messageRef, { reactions });
 }
 
 // --- Reaction Popup ---
-function showReactionPopup(msgElement, messageId) {
+function showReactionPopup(msgElement, messageId, currentReactions) {
   const popup = document.createElement("div");
   popup.className = "reaction-popup";
 
-  ["👍","❤️","😂","😮","😢","🔥"].forEach(r => {
+  REACTIONS.forEach(r => {
     const span = document.createElement("span");
     span.textContent = r;
-    span.onclick = () => addReaction(messageId, r);
+    span.onclick = () => toggleReaction(messageId, r, currentReactions);
     popup.appendChild(span);
   });
 
