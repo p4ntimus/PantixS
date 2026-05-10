@@ -26,7 +26,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const messagesRef = collection(db, "messages");
 
-// --- Reaction Set ---
+// --- Reaction Set (WhatsApp + Extra) ---
 const REACTIONS = ["👍","❤️","😂","😮","😢","😡","🔥","😍","🤯","👀","👏"];
 
 // --- DOM Elements ---
@@ -96,22 +96,41 @@ onSnapshot(q, (snapshot) => {
     const msg = document.createElement("div");
     msg.className = data.user === username ? "message me" : "message other";
 
-    // Reaction-Badges generieren
-    let reactionHTML = "";
-    if (data.reactions) {
-      const entries = Object.entries(data.reactions);
-      if (entries.length > 0) {
-        reactionHTML = entries
-          .map(([emoji, users]) => `<div class="reaction-badge">${emoji} ${users.length}</div>`)
-          .join("");
-      }
-    }
+    // Text + Zeit
+    const textDiv = document.createElement("div");
+    textDiv.textContent = data.text;
 
-    msg.innerHTML = `
-      <div>${data.text}</div>
-      <div class="time">${formatTime(data.createdAt)}</div>
-      ${reactionHTML}
-    `;
+    const timeDiv = document.createElement("div");
+    timeDiv.className = "time";
+    timeDiv.textContent = formatTime(data.createdAt);
+
+    msg.appendChild(textDiv);
+    msg.appendChild(timeDiv);
+
+    // --- iMessage-Style Reaction Stack ---
+    if (data.reactions && Object.keys(data.reactions).length > 0) {
+      const stack = document.createElement("div");
+      stack.className = "reaction-stack";
+
+      Object.entries(data.reactions).forEach(([emoji, users]) => {
+        if (!users || users.length === 0) return;
+
+        const chip = document.createElement("div");
+        chip.className = "reaction-chip";
+
+        const emojiSpan = document.createElement("span");
+        emojiSpan.textContent = emoji;
+
+        const countSpan = document.createElement("span");
+        countSpan.textContent = users.length;
+
+        chip.appendChild(emojiSpan);
+        chip.appendChild(countSpan);
+        stack.appendChild(chip);
+      });
+
+      msg.appendChild(stack);
+    }
 
     // --- Long Press für Reaction Popup ---
     let pressTimer;
@@ -125,7 +144,7 @@ onSnapshot(q, (snapshot) => {
     msg.addEventListener("touchend", () => clearTimeout(pressTimer));
     msg.addEventListener("touchmove", () => clearTimeout(pressTimer));
 
-    // Optional für PC
+    // Optional für PC (Rechtsklick)
     msg.addEventListener("contextmenu", (e) => {
       e.preventDefault();
       showReactionPopup(msg, id, data.reactions || {});
@@ -152,7 +171,7 @@ window.addEventListener("focusout", () => {
   inputArea.classList.remove("keyboard-open");
 });
 
-// --- Reaction speichern / entfernen ---
+// --- Reaction speichern / entfernen (Multi) ---
 async function toggleReaction(messageId, emoji, currentReactions) {
   const reactions = { ...currentReactions };
 
@@ -173,6 +192,9 @@ async function toggleReaction(messageId, emoji, currentReactions) {
 
 // --- Reaction Popup ---
 function showReactionPopup(msgElement, messageId, currentReactions) {
+  const existing = msgElement.querySelector(".reaction-popup");
+  if (existing) existing.remove();
+
   const popup = document.createElement("div");
   popup.className = "reaction-popup";
 
@@ -187,5 +209,9 @@ function showReactionPopup(msgElement, messageId, currentReactions) {
 
   setTimeout(() => popup.classList.add("show"), 10);
 
-  document.addEventListener("click", () => popup.remove(), { once: true });
+  document.addEventListener("click", (e) => {
+    if (!popup.contains(e.target)) {
+      popup.remove();
+    }
+  }, { once: true });
 }
