@@ -20,6 +20,17 @@ const firebaseConfig = {
   appId: "1:397472052167:web:b769b80410f86711cd9fe2"
 };
 
+import { updateDoc, doc } 
+  from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+async function addReaction(messageId, reaction) {
+  const messageRef = doc(db, "messages", messageId);
+
+  await updateDoc(messageRef, {
+    reaction: reaction
+  });
+}
+
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const messagesRef = collection(db, "messages");
