@@ -22,6 +22,8 @@ body {
 
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
+
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
 /* --- Z-Index Fix --- */
@@ -32,76 +34,76 @@ body {
 
 /* --- Header (modern butterfly header) --- */
 .chat-header {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    height: 62px;
-    padding: 0 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: 62px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-    background: linear-gradient(90deg, #6d28d9, #9333ea);
-    backdrop-filter: blur(12px);
-    box-shadow: 0 2px 12px rgba(0,0,0,0.35);
+  background: linear-gradient(90deg, #6d28d9, #9333ea);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.35);
 
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    padding-top: env(safe-area-inset-top);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  padding-top: env(safe-area-inset-top);
 }
 
 .header-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .header-emoji {
-    font-size: 28px;
-    filter: drop-shadow(0 0 6px rgba(255,255,255,0.3));
+  font-size: 28px;
+  filter: drop-shadow(0 0 6px rgba(255,255,255,0.3));
 }
 
 .header-titles {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.1;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
 }
 
 .header-title {
-    font-size: 18px;
-    font-weight: 600;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .header-subtitle {
-    font-size: 13px;
-    opacity: 0.9;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+  font-size: 13px;
+  opacity: 0.9;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .online-dot {
-    width: 8px;
-    height: 8px;
-    background: #4ade80;
-    border-radius: 50%;
-    box-shadow: 0 0 6px #4ade80;
+  width: 8px;
+  height: 8px;
+  background: #4ade80;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #4ade80;
 }
 
 .header-right {
-    display: flex;
-    align-items: center;
-    gap: 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
 .header-icon {
-    font-size: 20px;
-    opacity: 0.9;
-    transition: 0.15s ease;
+  font-size: 20px;
+  opacity: 0.9;
+  transition: 0.15s ease;
 }
 
 .header-icon:active {
-    transform: scale(1.25);
-    opacity: 1;
+  transform: scale(1.25);
+  opacity: 1;
 }
 
 /* --- Nachrichtenbereich --- */
@@ -340,4 +342,85 @@ body {
   0% { transform: scale(0.2); opacity: 0; }
   60% { transform: scale(1.25); opacity: 1; }
   100% { transform: scale(1); }
+}
+
+/* --- Settings Menu --- */
+#settings-menu {
+  position: fixed;
+  top: 70px;
+  right: 12px;
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(12px);
+  padding: 16px;
+  border-radius: 12px;
+  width: 180px;
+  z-index: 999;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  transition: 0.2s ease;
+  opacity: 1;
+}
+
+.settings-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px);
+}
+
+#settings-menu h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.theme-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.theme-buttons button {
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.theme-buttons button:active {
+  transform: scale(0.95);
+}
+
+/* --- PantixS Themes --- */
+.theme-purple {
+  --bg: #0f0f10;
+  --header-bg: #6d28d9;
+  --bubble-me: #4f46e5;
+  --bubble-other: #1f1f22;
+  --accent: #9333ea;
+}
+
+.theme-pink {
+  --bg: #1a0f14;
+  --header-bg: #d946ef;
+  --bubble-me: #ec4899;
+  --bubble-other: #24101a;
+  --accent: #f472b6;
+}
+
+.theme-blue {
+  --bg: #0d1117;
+  --header-bg: #2563eb;
+  --bubble-me: #3b82f6;
+  --bubble-other: #111827;
+  --accent: #60a5fa;
+}
+
+.theme-girly {
+  --bg: #1a0f14;
+  --header-bg: #ff7ad1;
+  --bubble-me: #ff4fb2;
+  --bubble-other: #24101a;
+  --accent: #ff9adf;
 }
