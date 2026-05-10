@@ -1,30 +1,9 @@
-/* Dark Elegant Grunddesign */
+/* --- Root / 100vh Fix --- */
 :root {
   --vh: 1vh;
 }
 
-/* Username Overlay */
-#username-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999 !important;
-
-  /* Safe Area */
-  padding-top: env(safe-area-inset-top);
-  padding-bottom: env(safe-area-inset-bottom);
-}
-
-/* Z-Index Fix */
-#messages, #inputArea, #chat-header {
-  position: relative;
-  z-index: 1;
-}
-
-/* Body */
+/* --- Body --- */
 body {
   margin: 0;
   background: #0f0f10;
@@ -33,7 +12,6 @@ body {
 
   /* Mobile 100vh Fix */
   height: calc(var(--vh) * 100);
-
   overflow: hidden;
 
   /* Safe Area */
@@ -41,7 +19,13 @@ body {
   padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* Header */
+/* --- Z-Index Fix --- */
+#messages, #inputArea, #chat-header {
+  position: relative;
+  z-index: 1;
+}
+
+/* --- Header --- */
 #chat-header {
   height: 60px;
   background: #18181b;
@@ -56,7 +40,7 @@ body {
   padding-top: env(safe-area-inset-top);
 }
 
-/* Nachrichtenbereich */
+/* --- Nachrichtenbereich --- */
 #messages {
   position: absolute;
   top: 60px;
@@ -68,9 +52,19 @@ body {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  scroll-behavior: smooth;
 }
 
-/* Nachrichtenblasen */
+/* Scrollbar minimal */
+#messages::-webkit-scrollbar {
+  width: 4px;
+}
+#messages::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+/* --- Nachrichtenblasen --- */
 .message {
   max-width: 75%;
   padding: 12px 16px;
@@ -87,6 +81,7 @@ body {
   background: #4f46e5;
   color: white;
   border-bottom-right-radius: 4px;
+  box-shadow: 0 0 10px rgba(79, 70, 229, 0.4);
 }
 
 /* Andere Nachricht */
@@ -104,7 +99,7 @@ body {
   text-align: right;
 }
 
-/* Eingabebereich – FINAL & EINZIGER BLOCK */
+/* --- Eingabebereich --- */
 #inputArea {
   position: fixed;
   bottom: 0;
@@ -122,7 +117,12 @@ body {
   padding-bottom: calc(10px + env(safe-area-inset-bottom));
 }
 
-/* Input */
+/* Keyboard-Fix-Klasse (wird von chat.js gesetzt) */
+#inputArea.keyboard-open {
+  position: absolute;
+}
+
+/* --- Input --- */
 #messageInput {
   flex: 1;
   border: none;
@@ -138,7 +138,7 @@ body {
   line-height: 1.4;
 }
 
-/* Senden Button */
+/* --- Senden Button --- */
 #sendBtn {
   width: 60px;
   border: none;
@@ -146,6 +146,26 @@ body {
   background: #4f46e5;
   color: white;
   font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(79, 70, 229, 0.4);
+}
+#sendBtn:active {
+  transform: scale(0.95);
+}
+
+/* --- Username Overlay --- */
+#username-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999 !important;
+
+  /* Safe Area */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 /* Overlay Box */
@@ -179,7 +199,7 @@ body {
   font-size: 16px;
 }
 
-/* Animation */
+/* --- Animation --- */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
