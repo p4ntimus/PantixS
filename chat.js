@@ -100,6 +100,33 @@ onSnapshot(q, (snapshot) => {
     }
   });
 
+  // Reaction Popup erstellen
+function createReactionPopup(messageElement, messageId) {
+  const popup = document.createElement("div");
+  popup.className = "reaction-popup";
+
+  const reactions = ["👍", "❤️", "😂", "😮", "😢", "🔥"];
+
+  reactions.forEach(r => {
+    const span = document.createElement("span");
+    span.textContent = r;
+    span.onclick = () => addReaction(messageId, r);
+    popup.appendChild(span);
+  });
+
+  messageElement.appendChild(popup);
+
+  setTimeout(() => popup.classList.add("show"), 10);
+
+  // Popup schließen, wenn man woanders klickt
+  document.addEventListener("click", (e) => {
+    if (!popup.contains(e.target)) {
+      popup.classList.remove("show");
+      setTimeout(() => popup.remove(), 150);
+    }
+  }, { once: true });
+}
+
   // Smooth scroll nur wenn man unten ist
   const nearBottom = messagesDiv.scrollHeight - messagesDiv.scrollTop - messagesDiv.clientHeight < 80;
   if (nearBottom) {
