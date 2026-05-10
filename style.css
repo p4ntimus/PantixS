@@ -1,3 +1,12 @@
+:root {
+  --bg: #0f0f10;
+  --header-bg: #6d28d9;
+  --bubble-me: #4f46e5;
+  --bubble-other: #1f1f22;
+  --accent: #9333ea;
+  --text: #ffffff;
+}
+
 /* --- Root / 100vh Fix --- */
 :root {
   --vh: 1vh;
