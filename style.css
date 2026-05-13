@@ -176,7 +176,7 @@ body {
   align-items: flex-end;
   padding: 10px;
   gap: 10px;
-  border-top: 1px solid #222;
+  border-top: 10px solid #222;
   z-index: 10;
 
   padding-bottom: calc(10px + env(safe-area-inset-bottom));
