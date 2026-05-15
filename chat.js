@@ -62,8 +62,8 @@ function formatTime(timestamp) {
   if (!timestamp) return "";
   const date = timestamp.toDate();
   return date.toLocaleTimeString("de-DE", {
-    day: "",
-    month: "",
+    day: " ",
+    month: " ",
     hour: "2-digit",
     minute: "2-digit"
   });
